@@ -10,7 +10,6 @@ public class Main extends Application {
         ViewController viewController = new ViewController(primaryStage);
     }
 
-
     public static void main(String[] args) {
         launch(args);
     }
