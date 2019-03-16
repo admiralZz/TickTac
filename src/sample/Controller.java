@@ -25,7 +25,7 @@ public class Controller {
     }
     public void click(Cell cell)
     {
-        cell.setState(player1.getState());
+        cell.setState(player2.getState());
     }
 
 }

@@ -21,7 +21,7 @@ class GameMap extends GridPane
             this.getRowConstraints().add(new RowConstraints(cellSize));
             for(int j = 0; j < size; j++)
             {
-                Cell cell = new Cell(i, j, 0,0,cellSize,cellSize);
+                Cell cell = new Cell(i, j, cellSize);
                 map[i][j] = cell;
                 this.add(cell,i,j);
             }
