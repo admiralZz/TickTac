@@ -29,7 +29,12 @@ public class Cell extends Pane {
             this.getChildren().add(o);
             this.o.setVisible(false);
         }
-        public boolean setState(State state)
+
+    public State getCurrentState() {
+        return currentState;
+    }
+
+    public boolean setState(State state)
         {
             if(currentState != State.EMPTY)
                 return false;
