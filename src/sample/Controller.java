@@ -3,6 +3,9 @@ package sample;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Controller {
     private ViewController viewController;
     private Player player1;
@@ -27,7 +30,7 @@ public class Controller {
     }
     public void click(Cell cell)
     {
-        System.out.println(cell.i + "" + cell.j);
+        System.out.println(cell.row + "" + cell.column);
         if(cell.setState(currentPlayer.getState())) {
             update();
         }
@@ -47,15 +50,23 @@ public class Controller {
     }
     public boolean checkVictory(Cell.State state)
     {
+        List<Cell> victoryLine = new ArrayList<>();
+
         for(Cell row[] : viewController.getGameMap().map) {
             boolean rowVictory = true;
             for (Cell cell : row) {
+                victoryLine.add(cell);
                 if (state != cell.getCurrentState()) {
                     rowVictory = false;
+                    victoryLine.clear();
                     break;
                 }
             }
-            if(rowVictory) return true;
+            if(rowVictory) {
+                for(Cell cell : victoryLine)
+                    cell.setHline(true);
+                return true;
+            }
         }
         for(int i = 0; i < viewController.getGameMap().map.length; i++)
         {
@@ -63,36 +74,52 @@ public class Controller {
             for(int j = 0; j < viewController.getGameMap().map.length; j++)
             {
                 Cell cell = viewController.getGameMap().map[j][i];
+                victoryLine.add(cell);
                 if(state != cell.getCurrentState()){
                     columnVictory = false;
+                    victoryLine.clear();
                     break;
                 }
             }
-            if(columnVictory) return true;
+            if(columnVictory) {
+                for(Cell cell : victoryLine)
+                    cell.setVline(true);
+                return true;
+            }
         }
         boolean diagonalVictory1 = true;
         for(int i = viewController.getGameMap().map.length; --i >= 0;)
         {
             Cell cell = viewController.getGameMap().map[viewController.getGameMap().map.length - 1 - i][i];
-            if(state != cell.getCurrentState())
-            {
+            victoryLine.add(cell);
+            if(state != cell.getCurrentState()) {
                 diagonalVictory1 = false;
+                victoryLine.clear();
                 break;
             }
         }
-        if(diagonalVictory1) return true;
+        if(diagonalVictory1) {
+            for(Cell cell : victoryLine)
+                cell.setDline1(true);
+            return true;
+        }
 
         boolean diagonalVictory2 = true;
         for(int i = 0; i < viewController.getGameMap().map.length; i++)
         {
             Cell cell = viewController.getGameMap().map[i][i];
-            if(state != cell.getCurrentState())
-            {
+            victoryLine.add(cell);
+            if(state != cell.getCurrentState()) {
                 diagonalVictory2 = false;
+                victoryLine.clear();
                 break;
             }
         }
-        if(diagonalVictory2) return true;
+        if(diagonalVictory2) {
+            for(Cell cell : victoryLine)
+                cell.setDline2(true);
+            return true;
+        }
 
         return false;
     }
