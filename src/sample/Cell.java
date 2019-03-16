@@ -64,6 +64,9 @@ public class Cell extends Pane {
                 line2.setStartY(size);
                 line2.setEndX(size);
                 line2.setEndY(0);
+
+                line1.setStrokeWidth(3);
+                line2.setStrokeWidth(3);
                 this.getChildren().addAll(line1,line2);
 
             }

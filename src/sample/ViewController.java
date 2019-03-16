@@ -1,14 +1,11 @@
 package sample;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Separator;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -21,6 +18,7 @@ public class ViewController {
     private HBox settingsPanel;
     private Pane gamePanel;
     private GameMap gameMap;
+    private Label currentPlayer;
 
     ViewController(Stage primaryStage) throws IOException {
         this.controller = controller;
@@ -56,22 +54,36 @@ public class ViewController {
         /** Разделители */
         Separator separator1 = new Separator();
         Separator separator2 = new Separator();
+        Separator separator3 = new Separator();
+        Separator separator4 = new Separator();
 
         /** Панель с игровым полем*/
         gamePanel = new Pane();
+        VBox.setMargin(gamePanel,new Insets(20,0,20,0));
         gameMap = new GameMap(3);
         gameMap.setLayoutX(40);
         gamePanel.getChildren().addAll(gameMap);
 
+        /** Инфо панель */
+        BorderPane infoPane = new BorderPane();
+        Label label = new Label("Current player: ");
+        currentPlayer = new Label("Player 1");
+        infoPane.setLeft(label);
+        infoPane.setRight(currentPlayer);
+
         /** Группируем основные панели */
-        root.getChildren().addAll(settingsPanel,separator1, separator2, gamePanel);
+        root.getChildren().addAll(settingsPanel,separator1, separator2, gamePanel, separator3, separator4, infoPane);
 
         primaryStage.setTitle("Tick Tack");
-        primaryStage.setScene(new Scene(root, 300, 340));
+        primaryStage.setScene(new Scene(root, 300, 400));
         primaryStage.show();
     }
 
     public GameMap getGameMap() {
         return gameMap;
+    }
+    public Label getCurrentPlayer()
+    {
+        return currentPlayer;
     }
 }
