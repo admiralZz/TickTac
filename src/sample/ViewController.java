@@ -1,28 +1,30 @@
 package sample;
 
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class ViewController {
+
+
+    private Controller controller;
     private VBox root;
     private HBox settingsPanel;
     private Pane gamePanel;
-
-    private Label map[][];
-    private int map_size = 3;
+    private GameMap gameMap;
 
     ViewController(Stage primaryStage) throws IOException {
+        this.controller = controller;
+
         // Элемент - родитель
         root = new VBox();
 
@@ -57,33 +59,19 @@ public class ViewController {
 
         /** Панель с игровым полем*/
         gamePanel = new Pane();
-        // Создаем сетку
-        GridPane map = new GridPane();
-        map.setGridLinesVisible(true);
-        int cellSize = 70;
-        for(int i = 0; i < map_size;i++) {
-            map.getColumnConstraints().add(new ColumnConstraints(cellSize));
-            map.getRowConstraints().add(new RowConstraints(cellSize));
-            for (int j = 0; j < map_size; j++) {
-                Label cell = new Label("CELL" + i + j);
-                cell.setAlignment(Pos.CENTER_RIGHT);
-                map.add(cell, i, j);
-            }
-        }
-        map.setLayoutX(40);
-        gamePanel.getChildren().addAll(map);
+        gameMap = new GameMap(3);
+        gameMap.setLayoutX(40);
+        gamePanel.getChildren().addAll(gameMap);
 
         /** Группируем основные панели */
         root.getChildren().addAll(settingsPanel,separator1, separator2, gamePanel);
-//        this.map = new Label[map_size][map_size];
-//        for(int i = 0;i < map_size;i++)
-//            for(int j = 0; j < map_size; j++)
-//            {
-//                map[i][j] = new Label("CELL" + i + j);
-//            }
 
         primaryStage.setTitle("Tick Tack");
         primaryStage.setScene(new Scene(root, 300, 340));
         primaryStage.show();
+    }
+
+    public GameMap getGameMap() {
+        return gameMap;
     }
 }
