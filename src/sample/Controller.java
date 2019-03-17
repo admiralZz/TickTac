@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
@@ -11,13 +12,10 @@ public class Controller {
     private Player player1;
     private Player player2;
     private Player currentPlayer;
+    private boolean end;
 
     public Controller(ViewController viewController)
     {
-        player1 = new Player("Player 1", Cell.State.X);
-        player2 = new Player("Player 2", Cell.State.O);
-        currentPlayer = player1;
-
         this.viewController = viewController;
         for(Cell row[] : viewController.getGameMap().map)
             for(Cell cell : row)
@@ -27,18 +25,37 @@ public class Controller {
                         click(cell);
                     }
                 });
+        this.viewController.restart.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                start();
+            }
+        });
+        start();
+    }
+    public void start()
+    {
+        player1 = new Player("Player 1", Cell.State.X);
+        player2 = new Player("Player 2", Cell.State.O);
+        currentPlayer = player1;
+        viewController.getGameMap().start();
+
+        end = false;
+        viewController.restart.setVisible(end);
     }
     public void click(Cell cell)
     {
-        System.out.println(cell.row + "" + cell.column);
-        if(cell.setState(currentPlayer.getState())) {
-            update();
+        if(!end) {
+            if (cell.setState(currentPlayer.getState())) {
+                update();
+            }
         }
     }
     public void update()
     {
-        if(checkVictory(Cell.State.X) || checkVictory(Cell.State.O)){
-            System.out.println(currentPlayer.toString() + " VICTORY!");
+        if(checkVictory(Cell.State.X) || checkVictory(Cell.State.O) || draw()){
+            end = true;
+            viewController.restart.setVisible(end);
         }
         else {
             if (currentPlayer == player1)
@@ -122,6 +139,17 @@ public class Controller {
         }
 
         return false;
+    }
+    private boolean draw()
+    {
+        for(Cell row[] : viewController.getGameMap().map) {
+            for (Cell cell : row) {
+                if (cell.getCurrentState() == Cell.State.EMPTY) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 }

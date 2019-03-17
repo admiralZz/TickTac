@@ -54,7 +54,6 @@ public class Cell extends Pane {
         this.getChildren().addAll(vline,hline,dline1,dline2);
     }
 
-
     public State getCurrentState() {
         return currentState;
     }
@@ -65,6 +64,14 @@ public class Cell extends Pane {
         currentState = state;
         update();
         return true;
+    }
+    public void clear()
+    {
+        currentState = State.EMPTY;
+        this.vline.setVisible(false);
+        this.hline.setVisible(false);
+        this.dline1.setVisible(false);
+        this.dline2.setVisible(false);
     }
     public void setVline(boolean setting)
     {

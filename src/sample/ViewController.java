@@ -1,6 +1,5 @@
 package sample;
 
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,6 +11,7 @@ import java.io.IOException;
 
 public class ViewController {
 
+    public final Button restart;
 
     private Controller controller;
     private VBox root;
@@ -49,7 +49,11 @@ public class ViewController {
         rbPanel.getChildren().addAll(rbPvp, rbAiEasy, rbAiHard);
         // Группируем название и кнопки вместе
         modePanel.getChildren().addAll(labelGameMode, rbPanel);
-        settingsPanel.getChildren().add(modePanel);
+        BorderPane buttonPanel = new BorderPane();
+        restart = new Button("restart");
+        restart.setVisible(false);
+        buttonPanel.setLeft(restart);
+        settingsPanel.getChildren().addAll(modePanel, buttonPanel);
 
         /** Разделители */
         Separator separator1 = new Separator();

@@ -3,7 +3,6 @@ package sample;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.shape.Line;
 
 class GameMap extends GridPane
 {
@@ -29,5 +28,14 @@ class GameMap extends GridPane
 
             }
         }
+        //start();
+    }
+    public void start()
+    {
+        for(Cell row[] : map)
+            for(Cell cell : row) {
+                cell.clear();
+                cell.update();
+            }
     }
 }
