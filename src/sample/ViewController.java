@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -32,7 +33,7 @@ public class ViewController {
         int margin = 10;
         VBox.setMargin(settingsPanel,new Insets(margin,margin,margin,margin));
         // Контейнер с режимами игры
-        VBox modePanel = new VBox();
+        VBox modePanel1 = new VBox();
         Label labelGameMode = new Label("Game Mode");
         // Переключатели режима
         VBox rbPanel = new VBox();
@@ -48,12 +49,26 @@ public class ViewController {
         rbPvp.setSelected(true);
         rbPanel.getChildren().addAll(rbPvp, rbAiEasy, rbAiHard);
         // Группируем название и кнопки вместе
-        modePanel.getChildren().addAll(labelGameMode, rbPanel);
-        BorderPane buttonPanel = new BorderPane();
+        modePanel1.getChildren().addAll(labelGameMode, rbPanel);
+        modePanel1.setPadding(new Insets(0,20,0,0));
+        BorderPane modePanel2 = new BorderPane();
+        modePanel2.setPrefWidth(150);
+        VBox rbPanelXO = new VBox();
+        VBox.setMargin(rbPanelXO, new Insets(5,0,0,15));
+        RadioButton rbX = new RadioButton("X");
+        RadioButton rbO = new RadioButton("0");
+        ToggleGroup chooseXO = new ToggleGroup();
+        rbX.setToggleGroup(chooseXO);
+        rbO.setToggleGroup(chooseXO);
+        rbX.setSelected(true);
+        rbPanelXO.getChildren().addAll(rbX,rbO);
         restart = new Button("restart");
         restart.setVisible(false);
-        buttonPanel.setLeft(restart);
-        settingsPanel.getChildren().addAll(modePanel, buttonPanel);
+        modePanel2.setBottom(rbPanelXO);
+        modePanel2.setRight(restart);
+        Separator vseparator = new Separator();
+        vseparator.setOrientation(Orientation.VERTICAL);
+        settingsPanel.getChildren().addAll(modePanel1, vseparator, modePanel2);
 
         /** Разделители */
         Separator separator1 = new Separator();
