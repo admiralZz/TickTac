@@ -2,16 +2,21 @@ package sample;
 
 public class Player {
     private String name;
-    private Cell.State state;
+    private Cell.State play;
+    private boolean canStep;
 
-    public Player(String name, Cell.State state)
+    public Player(String name, Cell.State play)
     {
         this.name = name;
-        this.state = state;
+        this.play = play;
     }
 
-    public Cell.State getState() {
-        return state;
+    public Cell.State getPlay() {
+        return play;
+    }
+
+    public void setCanStep(boolean canStep) {
+        this.canStep = canStep;
     }
 
     @Override

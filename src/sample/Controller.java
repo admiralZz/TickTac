@@ -16,6 +16,10 @@ public class Controller {
 
     public Controller(ViewController viewController)
     {
+        player1 = new Player("Player 1", Cell.State.X);
+        //player2 = new Player("Player 2", Cell.State.O);
+        player2 = new AIEasy("AI(Easy)", Cell.State.O, new GamePlay());
+
         this.viewController = viewController;
         for(Cell row[] : viewController.getGameMap().map)
             for(Cell cell : row)
@@ -33,39 +37,47 @@ public class Controller {
         });
         start();
     }
-    public void start()
+    private void start()
     {
-        player1 = new Player("Player 1", Cell.State.X);
-        player2 = new Player("Player 2", Cell.State.O);
-        currentPlayer = player1;
         viewController.getGameMap().start();
 
         end = false;
         viewController.restart.setVisible(end);
+        changePlayers();
     }
-    public void click(Cell cell)
+    private void click(Cell cell)
     {
         if(!end) {
-            if (cell.setState(currentPlayer.getState())) {
+            if (cell.setState(currentPlayer.getPlay())) {
                 update();
             }
         }
     }
-    public void update()
+    private void update()
     {
         if(checkVictory(Cell.State.X) || checkVictory(Cell.State.O) || draw()){
             end = true;
             viewController.restart.setVisible(end);
         }
         else {
-            if (currentPlayer == player1)
-                currentPlayer = player2;
-            else
-                currentPlayer = player1;
+            changePlayers();
             viewController.getCurrentPlayer().setText(currentPlayer.toString());
         }
     }
-    public boolean checkVictory(Cell.State state)
+    private void changePlayers()
+    {
+        if(currentPlayer == null)
+            currentPlayer = player2;
+        currentPlayer.setCanStep(false);
+        if (currentPlayer == player1)
+            currentPlayer = player2;
+        else
+            currentPlayer = player1;
+        currentPlayer.setCanStep(true);
+
+    }
+
+    private boolean checkVictory(Cell.State state)
     {
         List<Cell> victoryLine = new ArrayList<>();
 
@@ -151,5 +163,21 @@ public class Controller {
         }
         return true;
     }
+    public interface Played{
+        Cell[][] getMap();
+        void click(Cell cell);
+    }
+    private class GamePlay implements Played
+    {
+        public Cell[][] getMap()
+        {
+            return Controller.this.viewController.getGameMap().map;
+        }
+        public void click(Cell cell)
+        {
+            Controller.this.click(cell);
+        }
+    }
+
 
 }
