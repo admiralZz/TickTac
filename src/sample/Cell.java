@@ -12,6 +12,7 @@ public class Cell extends Pane {
     private Line dline2;
 
     public final int row, column;
+    public final int cellSize;
     private X x;
     private O o;
     private State currentState = State.EMPTY;
@@ -25,6 +26,7 @@ public class Cell extends Pane {
     {
         this.row = i;
         this.column = j;
+        this.cellSize = cellSize;
 
         this.x = new X(cellSize);
         this.getChildren().add(x);

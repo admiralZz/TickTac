@@ -5,28 +5,29 @@ import java.util.List;
 import java.util.Random;
 
 public class AIEasy extends Player {
-    private Controller.Played gamePlay;
+    protected Controller.Play map;
 
-    public AIEasy(String name, Cell.State state, Controller.Played gamePlay) {
+    public AIEasy(String name, Cell.State state, Controller.Play gamePlay) {
         super(name, state);
-        this.gamePlay = gamePlay;
+        this.map = gamePlay;
     }
 
     @Override
     public void setCanStep(boolean canStep) {
         super.setCanStep(canStep);
         if(canStep)
-        {
-            List<Cell> freeCells = new ArrayList<>();
-            for(Cell row[] : gamePlay.getMap())
-                for(Cell cell : row)
-                    if(cell.getCurrentState() == Cell.State.EMPTY)
-                        freeCells.add(cell);
+            step();
+    }
+    protected void step()
+    {
+        List<Cell> freeCells = new ArrayList<>();
+        for(Cell row[] : map.getMap())
+            for(Cell cell : row)
+                if(cell.getCurrentState() == Cell.State.EMPTY)
+                    freeCells.add(cell);
 
-            Random random = new Random();
-            gamePlay.click(freeCells.get(random.nextInt(freeCells.size())));
-
-        }
+        Random random = new Random();
+        map.click(freeCells.get(random.nextInt(freeCells.size())));
     }
 
 

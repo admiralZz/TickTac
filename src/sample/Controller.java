@@ -16,9 +16,10 @@ public class Controller {
 
     public Controller(ViewController viewController)
     {
-        player1 = new Player("Player 1", Cell.State.X);
+        player1 = new Player("Player 1", Cell.State.O);
         //player2 = new Player("Player 2", Cell.State.O);
-        player2 = new AIEasy("AI(Easy)", Cell.State.O, new GamePlay());
+        //player2 = new AIEasy("AI(Easy)", Cell.State.O, new GamePlay());
+        player2 = new AIHard("AI(Hard)",Cell.State.X,new GamePlay());
 
         this.viewController = viewController;
         for(Cell row[] : viewController.getGameMap().map)
@@ -48,6 +49,7 @@ public class Controller {
     private void click(Cell cell)
     {
         if(!end) {
+            System.out.println(cell.row + "" + cell.column);
             if (cell.setState(currentPlayer.getPlay())) {
                 update();
             }
@@ -67,7 +69,8 @@ public class Controller {
     private void changePlayers()
     {
         if(currentPlayer == null)
-            currentPlayer = player2;
+            currentPlayer = player1;
+
         currentPlayer.setCanStep(false);
         if (currentPlayer == player1)
             currentPlayer = player2;
@@ -163,11 +166,11 @@ public class Controller {
         }
         return true;
     }
-    public interface Played{
+    public interface Play {
         Cell[][] getMap();
         void click(Cell cell);
     }
-    private class GamePlay implements Played
+    private class GamePlay implements Play
     {
         public Cell[][] getMap()
         {
