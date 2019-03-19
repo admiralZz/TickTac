@@ -7,6 +7,10 @@ public class AIHard extends AIEasy {
 
     private Cell.State aiPlayer;
     private Cell.State huPlayer;
+    public AIHard(String name, Controller.Play gamePlay)
+    {
+        super(name, gamePlay);
+    }
 
     public AIHard(String name, Cell.State state, Controller.Play gamePlay)
     {
@@ -19,12 +23,24 @@ public class AIHard extends AIEasy {
             huPlayer = Cell.State.X;
     }
 
+    @Override
+    public void setPlay(Cell.State play) {
+        super.setPlay(play);
+
+        aiPlayer = play;
+        if(aiPlayer == Cell.State.X)
+            huPlayer = Cell.State.O;
+        else
+            huPlayer = Cell.State.X;
+    }
 
     @Override
     protected void step() {
+
         AiCell newMap[][] = createAiMap(map.getMap());
         Move move = minimax(newMap, aiPlayer);
         map.click(map.getMap()[move.cell.i][move.cell.j]);
+
     }
     private Move minimax(AiCell map[][], Cell.State player)
     {

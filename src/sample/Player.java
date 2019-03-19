@@ -5,9 +5,17 @@ public class Player {
     private Cell.State play;
     private boolean canStep;
 
-    public Player(String name, Cell.State play)
+    public Player(String name)
     {
         this.name = name;
+    }
+    public Player(String name, Cell.State play)
+    {
+        this(name);
+        this.play = play;
+    }
+
+    public void setPlay(Cell.State play) {
         this.play = play;
     }
 

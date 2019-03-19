@@ -7,6 +7,10 @@ import java.util.Random;
 public class AIEasy extends Player {
     protected Controller.Play map;
 
+    public AIEasy(String name, Controller.Play gamePlay) {
+        super(name);
+        this.map = gamePlay;
+    }
     public AIEasy(String name, Cell.State state, Controller.Play gamePlay) {
         super(name, state);
         this.map = gamePlay;

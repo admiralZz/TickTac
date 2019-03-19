@@ -2,6 +2,7 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
@@ -9,6 +10,11 @@ import java.util.List;
 
 public class Controller {
     private ViewController viewController;
+    private Player huPlayer1 = new Player("Player 1");
+    private Player huPlayer2 = new Player("Player 2");
+    private Player aiEasyPlayer = new AIEasy("AI(Hard)", new GamePlay());
+    private Player aiHardPlayer = new AIHard("AI(Hard)", new GamePlay());
+
     private Player player1;
     private Player player2;
     private Player currentPlayer;
@@ -16,10 +22,10 @@ public class Controller {
 
     public Controller(ViewController viewController)
     {
-        player1 = new Player("Player 1", Cell.State.O);
-        //player2 = new Player("Player 2", Cell.State.O);
-        //player2 = new AIEasy("AI(Easy)", Cell.State.O, new GamePlay());
-        player2 = new AIHard("AI(Hard)",Cell.State.X,new GamePlay());
+        player1 = huPlayer1;
+        player2 = huPlayer2;
+        player1.setPlay(Cell.State.X);
+        player2.setPlay(Cell.State.O);
 
         this.viewController = viewController;
         for(Cell row[] : viewController.getGameMap().map)
@@ -36,6 +42,41 @@ public class Controller {
                 start();
             }
         });
+
+        this.viewController.getRbPvp().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                changeModes(viewController.getRbPvp());
+            }
+        });
+
+        this.viewController.getRbAiEasy().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                changeModes(viewController.getRbAiEasy());
+            }
+        });
+
+        this.viewController.getRbAiHard().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                changeModes(viewController.getRbAiHard());
+            }
+        });
+
+        this.viewController.getRbX().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                changeModes(viewController.getRbX());
+            }
+        });
+
+        this.viewController.getRbO().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                changeModes(viewController.getRbO());
+            }
+        });
         start();
     }
     private void start()
@@ -46,10 +87,56 @@ public class Controller {
         viewController.restart.setVisible(end);
         changePlayers();
     }
+    private void changeModes(RadioButton radioButton)
+    {
+        if(viewController.getRbPvp() == radioButton && radioButton.isSelected())
+        {
+            player2 = huPlayer2;
+            if(player1.getPlay() == Cell.State.X)
+                player2.setPlay(Cell.State.O);
+            else
+                player2.setPlay(Cell.State.X);
+        }
+        else if(viewController.getRbAiEasy() == radioButton && radioButton.isSelected())
+        {
+            player2 = aiEasyPlayer;
+            if(player1.getPlay() == Cell.State.X)
+                player2.setPlay(Cell.State.O);
+            else
+                player2.setPlay(Cell.State.X);
+        }
+        else if(viewController.getRbAiHard() == radioButton && radioButton.isSelected())
+        {
+            player2 = aiHardPlayer;
+            if(player1.getPlay() == Cell.State.X)
+                player2.setPlay(Cell.State.O);
+            else
+                player2.setPlay(Cell.State.X);
+        }
+
+        if(viewController.getRbX() == radioButton && radioButton.isSelected())
+        {
+            player1.setPlay(Cell.State.X);
+            player2.setPlay(Cell.State.O);
+        }
+        else if(viewController.getRbO() == radioButton && radioButton.isSelected())
+        {
+            player1.setPlay(Cell.State.O);
+            player2.setPlay(Cell.State.X);
+        }
+    }
+    private void hintModes(boolean end)
+    {
+        viewController.getRbPvp().setDisable(end);
+        viewController.getRbAiHard().setDisable(end);
+        viewController.getRbAiEasy().setDisable(end);
+        viewController.getRbX().setDisable(end);
+        viewController.getRbO().setDisable(end);
+    }
     private void click(Cell cell)
     {
         if(!end) {
-            System.out.println(cell.row + "" + cell.column);
+            //System.out.println(cell.row + "" + cell.column);
             if (cell.setState(currentPlayer.getPlay())) {
                 update();
             }
@@ -65,6 +152,8 @@ public class Controller {
             changePlayers();
             viewController.getCurrentPlayer().setText(currentPlayer.toString());
         }
+
+        hintModes(!end);
     }
     private void changePlayers()
     {

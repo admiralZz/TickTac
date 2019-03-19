@@ -2,7 +2,6 @@ package sample;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -19,6 +18,8 @@ public class ViewController {
     private HBox settingsPanel;
     private Pane gamePanel;
     private GameMap gameMap;
+    private RadioButton rbPvp, rbAiEasy, rbAiHard;
+    private RadioButton rbX, rbO;
     private Label currentPlayer;
 
     ViewController(Stage primaryStage) throws IOException {
@@ -38,9 +39,9 @@ public class ViewController {
         // Переключатели режима
         VBox rbPanel = new VBox();
         VBox.setMargin(rbPanel, new Insets(5,0,0,0));
-        RadioButton rbPvp = new RadioButton("PvP");
-        RadioButton rbAiEasy = new RadioButton("AI(Easy)");
-        RadioButton rbAiHard = new RadioButton("AI(Hard)");
+        rbPvp = new RadioButton("PvP");
+        rbAiEasy = new RadioButton("AI(Easy)");
+        rbAiHard = new RadioButton("AI(Hard)");
         ToggleGroup gameModes = new ToggleGroup();
         // Объединяем в группе(для выбора только одного из вариантов)
         rbPvp.setToggleGroup(gameModes);
@@ -55,8 +56,8 @@ public class ViewController {
         modePanel2.setPrefWidth(150);
         VBox rbPanelXO = new VBox();
         VBox.setMargin(rbPanelXO, new Insets(5,0,0,15));
-        RadioButton rbX = new RadioButton("X");
-        RadioButton rbO = new RadioButton("0");
+        rbX = new RadioButton("X");
+        rbO = new RadioButton("0");
         ToggleGroup chooseXO = new ToggleGroup();
         rbX.setToggleGroup(chooseXO);
         rbO.setToggleGroup(chooseXO);
@@ -101,8 +102,29 @@ public class ViewController {
     public GameMap getGameMap() {
         return gameMap;
     }
+
     public Label getCurrentPlayer()
     {
         return currentPlayer;
+    }
+
+    public RadioButton getRbPvp() {
+        return rbPvp;
+    }
+
+    public RadioButton getRbAiEasy() {
+        return rbAiEasy;
+    }
+
+    public RadioButton getRbAiHard() {
+        return rbAiHard;
+    }
+
+    public RadioButton getRbX() {
+        return rbX;
+    }
+
+    public RadioButton getRbO() {
+        return rbO;
     }
 }
