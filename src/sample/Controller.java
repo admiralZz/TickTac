@@ -42,41 +42,6 @@ public class Controller {
                 start();
             }
         });
-
-        this.viewController.getRbPvp().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                changeModes(viewController.getRbPvp());
-            }
-        });
-
-        this.viewController.getRbAiEasy().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                changeModes(viewController.getRbAiEasy());
-            }
-        });
-
-        this.viewController.getRbAiHard().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                changeModes(viewController.getRbAiHard());
-            }
-        });
-
-        this.viewController.getRbX().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                changeModes(viewController.getRbX());
-            }
-        });
-
-        this.viewController.getRbO().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                changeModes(viewController.getRbO());
-            }
-        });
         start();
     }
     private void start()
@@ -85,11 +50,8 @@ public class Controller {
 
         end = false;
         viewController.restart.setVisible(end);
-        changePlayers();
-    }
-    private void changeModes(RadioButton radioButton)
-    {
-        if(viewController.getRbPvp() == radioButton && radioButton.isSelected())
+
+        if(viewController.getRbPvp().isSelected())
         {
             player2 = huPlayer2;
             if(player1.getPlay() == Cell.State.X)
@@ -97,7 +59,7 @@ public class Controller {
             else
                 player2.setPlay(Cell.State.X);
         }
-        else if(viewController.getRbAiEasy() == radioButton && radioButton.isSelected())
+        else if(viewController.getRbAiEasy().isSelected())
         {
             player2 = aiEasyPlayer;
             if(player1.getPlay() == Cell.State.X)
@@ -105,7 +67,7 @@ public class Controller {
             else
                 player2.setPlay(Cell.State.X);
         }
-        else if(viewController.getRbAiHard() == radioButton && radioButton.isSelected())
+        else if(viewController.getRbAiHard().isSelected())
         {
             player2 = aiHardPlayer;
             if(player1.getPlay() == Cell.State.X)
@@ -113,17 +75,17 @@ public class Controller {
             else
                 player2.setPlay(Cell.State.X);
         }
-
-        if(viewController.getRbX() == radioButton && radioButton.isSelected())
+        if(viewController.getRbX().isSelected())
         {
             player1.setPlay(Cell.State.X);
             player2.setPlay(Cell.State.O);
         }
-        else if(viewController.getRbO() == radioButton && radioButton.isSelected())
+        else
         {
             player1.setPlay(Cell.State.O);
             player2.setPlay(Cell.State.X);
         }
+        changePlayers();
     }
     private void hintModes(boolean end)
     {
@@ -158,7 +120,7 @@ public class Controller {
     private void changePlayers()
     {
         if(currentPlayer == null)
-            currentPlayer = player1;
+            currentPlayer = player2;
 
         currentPlayer.setCanStep(false);
         if (currentPlayer == player1)
