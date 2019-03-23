@@ -7,7 +7,7 @@ import javafx.scene.layout.RowConstraints;
 class GameMap extends GridPane
 {
     // коэффиецент размера клетки к количеству клеток
-    private static final float K_CELL_SIZE = 70.0f/3.0f;
+    private static final float K_CELL_SIZE = 210;
 
     Cell map[][];
 
@@ -15,7 +15,7 @@ class GameMap extends GridPane
     {
         map = new Cell[size][size];
         this.setGridLinesVisible(true);
-        int cellSize = Math.round(size * K_CELL_SIZE);
+        int cellSize = Math.round(K_CELL_SIZE / size);
         for(int i = 0; i < size;i++) {
             this.getColumnConstraints().add(new ColumnConstraints(cellSize));
             this.getRowConstraints().add(new RowConstraints(cellSize));
